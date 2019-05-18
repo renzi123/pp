@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"> 	
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+<link rel="apple-touch-icon-precomposed" sizes="57x57" href="icon-57.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="icon-72.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="icon-114.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="icon-144.png">
+
+<link rel="apple-touch-startup-image" sizes="2048x1496" href="icon-2048x1496.png" media="screen and (min-device-width:481px) and (max-device-width:1024px) and (orientation:landscape) and (-webkit-min-device-pixel-ratio: 2)">
+<link rel="apple-touch-startup-image" sizes="1536x2008" href="icon-1536x2008.png" media="screen and (min-device-width:481px) and (max-device-width:1024px) and (orientation:portrait) and (-webkit-min-device-pixel-ratio: 2)">
+
+
+<script type="text/javascript">
+//iOS Web APP中点击链接跳转到Safari 浏览器新标签页的问题 devework.com
+//stanislav.it/how-to-prevent-ios-standalone-mode-web-apps-from-opening-links-in-safari
+if(("standalone" in window.navigator) && window.navigator.standalone){
+var noddy, remotes = false;
+document.addEventListener('click', function(event) {
+noddy = event.target;
+while(noddy.nodeName !== "A" && noddy.nodeName !== "HTML") {
+noddy = noddy.parentNode;
+}
+if('href' in noddy && noddy.href.indexOf('http') !== -1 && (noddy.href.indexOf(document.location.host) !== -1 || remotes))
+{
+event.preventDefault();
+document.location.href = noddy.href;
+}
+},false);
+}
+</script>
+<script src="js/howler.min.js"></script>	
+<script src="js/hammer.min.js"></script>	
+
+<script src="S03.js"></script>	
+<script type="text/javascript">
+
+
+	
+</script>
+
+</head>
+<body>
+<select id="ep" onchange="setEp(this.value)">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+
+</select>	
+<script type="text/javascript">
+	var img=document.createElement("img"); 
+	img.id="pic";
+	var dv=document.createElement("div"); 
+	dv.id="tc";
+	dv.style.top="100px";
+	dv.style.position='relative';
+	dv.style.fontSize='40pt';
+		document.body.appendChild(img);
+	document.body.appendChild(dv);
+	if(dv.addEventListener)
+	{
+		dv.addEventListener('click',function(){py.play(s,e,n)});
+	}
+	if(img.addEventListener)
+	{
+		img.addEventListener('click',function(){py.play(s,e,n)});
+	}
+var s=3,e=1,n=0;	
+function PrefixInteger(num, length) {
+ return (Array(length).join('0') + num).slice(-length);
+}	
+Howler.autoUnlock = true;
+Howler.preload =true
+var py=py||{};
+var sound=null;
+py.play=function(s,e,n){
+		if(sound)	{
+					sound.unload();
+		}
+		dv.innerHTML=S03[e-1][n].replace(" - ","<br> - ");
+
+		var m4a="S03/S"+PrefixInteger(s,2)+"E"+PrefixInteger(e,2)+"-"+PrefixInteger(n,3)+".m4a";
+		var pic="jpg/S"+PrefixInteger(s,2)+"E"+PrefixInteger(e,2)+"-"+PrefixInteger(n,3)+".jpg";
+		img.src=pic;
+		sound = new Howl({
+		  src: [m4a],
+		  autoplay: true
+		});
+		sound.play();
+
+};
+	py.play(s,e,n);
+        var hammertime = new Hammer(document.getElementById("pic"));
+        hammertime.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+        //   { velocity: 2.5,threshold:20});
+        hammertime.get('swipe').set({
+            velocity: 0,
+            threshold: 10
+        });
+        //hammertime.on('swipe',function(e){console.log(e)});
+        hammertime.on("swipeleft", function(ev) {
+            n-=1;
+            py.play(s,e,n);
+        });
+        hammertime.on("swiperight", function(ev) {
+            n+=1;
+            py.play(s,e,n);
+        });	
+function setEp(v){e=v;n=0;py.play(s,e,n)}
+
+</script>
+</body>
+</html>
